@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+data:
+  cluster.name: chanwit-test
+  logs.region: us-west-2
+  # The below configuration file is in JSON format.
+  # Please ensure you keep it well-formed if you modify it.
+  cluster-info.json: |
+    {
+      "cluster": {
+        "name": "chanwit-test"
+      },
+      "logs": {
+        "region": "us-west-2"
+      }
+    }
+kind: ConfigMap
+metadata:
+  name: cluster-info
+  namespace: amazon-cloudwatch

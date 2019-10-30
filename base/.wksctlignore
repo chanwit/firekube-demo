@@ -1,0 +1,4 @@
+amazon-cloudwatch/
+kube-system/
+namespaces/amazon-cloudwatch.yaml
+
