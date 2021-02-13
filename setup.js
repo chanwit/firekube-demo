@@ -122,22 +122,24 @@ if (config.machines !== undefined) {
 
   for (let i = 0; i < config.controlPlane.nodes; i++ ) {
     const machine = config.machines[i];
-    machines.concat(Machine({
+    const m = Machine({
       id: i,
       privateIP: machine.runtimeNetworks[0].ip,
       sshPort: sshPort(machine),
       role: 'master',
-    }));
+    });
+    machines.push(m[0], m[1]);
   }
 
   for (let i = 0; i < config.workers.nodes; i++ ) {
     const machine = config.machines[config.controlPlane.nodes + i];
-    machines.concat(Machine({
+    const w = Machine({
       id: i,
       privateIP: machine.runtimeNetworks[0].ip,
       sshPort: sshPort(machine),
       role: 'worker',
-    }));
+    });
+    machines.push(w[0], w[1]);
   }
 
   output.push({ path: 'machines.yaml', value: machines, format: std.Format.YAMLStream});
