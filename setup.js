@@ -74,8 +74,9 @@ const List = items => ({
 });
 
 // Machine returns a WKS machine description from a configuration object describing its public IP, private IP, id, and its role.
-const Machine = ({ id, privateIP, sshPort, role }) => ({
-  apiVersion: 'cluster.k8s.io/v1alpha1',
+const Machine = ({ id, privateIP, sshPort, role }) => ([
+{
+  apiVersion: 'cluster.x-k8s.io/v1alpha3',
   kind: 'Machine',
   metadata: {
     labels: {
@@ -85,22 +86,34 @@ const Machine = ({ id, privateIP, sshPort, role }) => ({
     namespace: 'weavek8sops'
   },
   spec: {
-    providerSpec: {
-      value: {
-        apiVersion: 'baremetalproviderspec/v1alpha1',
-        kind: 'BareMetalMachineProviderSpec',
-        public: {
-          address: '127.0.0.1',
-          port: sshPort,
-        },
-        private: {
-          address: privateIP,
-          port: 22,
-        }
-      }
+    clusterName: 'example',
+    bootstrap: {},
+    version: kubernetesVersion,
+    infrastructureRef: {
+      apiVersion: 'cluster.weave.works/v1alpha3',
+      kind: 'ExistingInfraMachine',
+      name: `${role}-${id}`,
     }
   }
-});
+},
+{
+  apiVersion: 'cluster.weave.works/v1alpha3',
+  kind: 'ExistingInfraMachine',
+  metadata: {
+    name: `${role}-${id}`,
+    namespace: 'weavek8sops'
+  },
+  spec: {
+    private: {
+      address: privateIP,
+      port: 22,
+    },
+    public: {
+      address: '127.0.0.1',
+      port: sshPort,
+    }
+  }
+}]);
 
 const sshPort = machine => machine.ports.find(p => p.guest == 22).host;
 
