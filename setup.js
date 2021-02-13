@@ -122,7 +122,7 @@ if (config.machines !== undefined) {
 
   for (let i = 0; i < config.controlPlane.nodes; i++ ) {
     const machine = config.machines[i];
-    machines.push(Machine({
+    machines.concat(Machine({
       id: i,
       privateIP: machine.runtimeNetworks[0].ip,
       sshPort: sshPort(machine),
@@ -132,7 +132,7 @@ if (config.machines !== undefined) {
 
   for (let i = 0; i < config.workers.nodes; i++ ) {
     const machine = config.machines[config.controlPlane.nodes + i];
-    machines.push(Machine({
+    machines.concat(Machine({
       id: i,
       privateIP: machine.runtimeNetworks[0].ip,
       sshPort: sshPort(machine),
