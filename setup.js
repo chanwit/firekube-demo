@@ -16,7 +16,7 @@ const backend = {
       type: 'volume',
       destination: '/var/lib/docker',
     }, {
-      type: 'volume',
+      type: 'bind',
       source: '/run',
       destination: '/run'
     }, {
