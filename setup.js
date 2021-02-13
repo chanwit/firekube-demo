@@ -15,6 +15,13 @@ const backend = {
     volumes: [{
       type: 'volume',
       destination: '/var/lib/docker',
+    }, {
+      type: 'volume',
+      source: '/run',
+      destination: '/run'
+    }, {
+      type: 'tmpfs',
+      destination: '/tmp'
     }]
   },
   ignite: {
