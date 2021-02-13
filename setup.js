@@ -67,11 +67,11 @@ const footloose = config => ({
 output.push({ path: 'footloose.yaml', value: footloose(config) });
 
 // List is a Kubernetes list.
-const List = items => ({
-  apiVersion: "v1",
-  kind: "List",
-  items
-});
+// const List = items => ({
+//  apiVersion: "v1",
+//  kind: "List",
+//  items
+// });
 
 // Machine returns a WKS machine description from a configuration object describing its public IP, private IP, id, and its role.
 const Machine = ({ id, privateIP, sshPort, role }) => ([
@@ -88,7 +88,7 @@ const Machine = ({ id, privateIP, sshPort, role }) => ([
   spec: {
     clusterName: 'example',
     bootstrap: {},
-    version: kubernetesVersion,
+    version: config.kubernetesVersion,
     infrastructureRef: {
       apiVersion: 'cluster.weave.works/v1alpha3',
       kind: 'ExistingInfraMachine',
@@ -140,7 +140,7 @@ if (config.machines !== undefined) {
     }));
   }
 
-  output.push({ path: 'machines.yaml', value: List(machines) });
+  output.push({ path: 'machines.yaml', value: machines, format: std.Format.YAMLStream});
 }
 
 export default output;
